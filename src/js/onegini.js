@@ -36,7 +36,7 @@ module.exports = (function () {
 
     callbackResult = utils.callbackExec('OneginiClient', 'start', [], function (config) {
           if (options.secureXhr === true) {
-            resource.init(config.resourceBaseURL);
+            resource.init(config.resourceBaseURL,  config.disableErrorHandling);
           }
           successCb();
         },

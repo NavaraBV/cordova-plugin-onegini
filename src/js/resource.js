@@ -56,6 +56,7 @@ module.exports = (function (XMLHttpRequest, TextDecoder, CustomEvent) {
   };
 
   let resourceBaseUrl;
+  let errorHandlingDisabled;
 
   if (!TextDecoder) {
     TextDecoder = require('text-encoding').TextDecoder;
@@ -94,7 +95,7 @@ module.exports = (function (XMLHttpRequest, TextDecoder, CustomEvent) {
       }
     }
 
-    utils.callbackExec('OneginiResourceClient', 'fetch', options, success, failure);
+    utils.callbackExec('OneginiResourceClient', 'fetch', options, success, errorHandlingDisabled ? success : failure);
 
     if (successCb) {
       return;
@@ -171,9 +172,10 @@ module.exports = (function (XMLHttpRequest, TextDecoder, CustomEvent) {
     return result;
   }
 
-  function init(url) {
+  function init(url, disableErrorHandling = false) {
     window.XMLHttpRequest = OneginiXMLHttpRequest;
     resourceBaseUrl = url;
+    errorHandlingDisabled = disableErrorHandling;
   }
 
   function disable() {
